@@ -182,6 +182,12 @@ def both(f, g):
     return say
 
 
+def print_gain(new_high, who):
+    if new_high>1:
+        print(new_high, "points! That's the biggest gain yet for Player", who)
+    else:
+        print(new_high, "point! That's the biggest gain yet for Player", who)
+
 def announce_highest(who, previous_high=0, previous_score=0):
     """Return a commentary function that announces when WHO's score
     increases by more than ever before in the game.
@@ -199,9 +205,23 @@ def announce_highest(who, previous_high=0, previous_score=0):
     """
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
-    
-    # END PROBLEM 7
+    def say(score0, score1):
+        if who == 0:
+            if score0-previous_score > previous_high:
+                new_high = score0-previous_score
+                print_gain(new_high, who)
+                return announce_highest(who, new_high, score0)
+            return announce_highest(who, previous_high, score0)
 
+        if who == 1:
+            if score1-previous_score > previous_high:
+                new_high = score1-previous_score
+                print_gain(new_high, who)
+                return announce_highest(who, new_high, score1)  
+            return announce_highest(who, previous_high, score1)
+
+    return say
+    # END PROBLEM 7
 
 #######################
 # Phase 3: Strategies #
